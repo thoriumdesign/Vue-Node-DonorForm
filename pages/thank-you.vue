@@ -23,12 +23,14 @@ export default {
   },
   methods: {
     async loadSession() {
+      const session_id = this.$route.params.session_id || this.$route.query.session_id
+      if (!session_id) throw "We have no session ID"
       const url = `${process.env.CF_WORKER_URL}/customer`
       const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Stripe-Session-ID": "xxx"
+          "X-Stripe-Session-ID": session_id
         },
       }
       const response = await fetch(url, options)
