@@ -1,24 +1,23 @@
 <template>
   <div>
-    <v-form @submit.prevent="">
-      <v-row>
-        <v-col>
-          <v-chip-group
-            active-class="primary--text"
-            column
-            @change="setPrice"
+    <v-row>
+      <v-col>
+        <v-chip-group
+          active-class="primary--text"
+          column
+          @change="setPrice"
+        >
+          <v-chip
+            v-for="(amount, index) in amounts" 
+            v-bind:key="index"
           >
-            <v-chip
-              v-for="(amount, index) in amounts" 
-              v-bind:key="index"
-            >
-              {{ currencyFormat(amount) }}
-            </v-chip>
-            <v-chip v-if="allow_custom">Custom Amount</v-chip>
-          </v-chip-group>
-        </v-col>
-      </v-row>
-      <v-row v-show="custom">
+            {{ currencyFormat(amount) }}
+          </v-chip>
+          <v-chip v-if="allow_custom">Custom Amount</v-chip>
+        </v-chip-group>
+      </v-col>
+    </v-row>
+    <v-row v-show="custom">
         <v-col>
           <v-text-field
             label="Custom Amount"
@@ -27,22 +26,20 @@
           ></v-text-field>
         </v-col>
       </v-row>
-    </v-form>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["amounts", "allow_custom"],
   data() {
     return {
-      amounts: [1500, 500, 200, 76, 35, 18, 14, 5, 3],
-      allow_custom: true,
       custom: false,
     }
   },
   methods: {
     returnPrice(new_price) {
-      this.$emit("price", new_price)
+      this.$emit("change", new_price)
     },
 
     setPrice(chip_index) {
@@ -58,9 +55,11 @@ export default {
 
     currencyFormat(value) {
       if (!value) return ''
-      return Number(value).toLocaleString('en', {
+      const currency_string = Number(value).toLocaleString('en', {
         style: 'currency', currency: 'USD'
       })
+      if (value % 1 === 0) return currency_string.slice(0, -3)
+      return currency_string
     },
   },
 }

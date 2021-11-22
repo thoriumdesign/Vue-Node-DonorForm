@@ -1,0 +1,11 @@
+<template>
+  <div>
+    <div>
+      <v-btn
+        to="/"
+        text
+      ><v-icon>mdi-chevron-left</v-icon>Home</v-btn>
+    </div>
+    <h1>Canceled</h1>
+  </div>
+</template>

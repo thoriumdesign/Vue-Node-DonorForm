@@ -7,6 +7,7 @@ export default {
 
   env: {
     STRIPE_PK: process.env.STRIPE_PK,
+    CF_WORKER_URL: process.env.CF_WORKER_URL,
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
